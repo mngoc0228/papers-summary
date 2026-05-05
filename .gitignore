@@ -1,0 +1,91 @@
+# Configuration files (keep templates)
+config/projects.json
+config/deployments.json
+
+# Cache and temporary files
+.cache/
+*.cache
+tmp/
+*.tmp
+.tmp
+
+# Log files
+logs/*
+*.log
+log/
+*.txt
+
+# Environment files
+*.env*
+.env
+.env.local
+.env.*.local
+
+# Security files
+*.secret
+*.pem
+*.key
+*.cert
+*.csr
+id_rsa*
+id_ed25519*
+
+# Development files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.upload_results.json
+
+# Dependencies
+node_modules/
+.venv/
+*.venv*
+# Frontend
+.next
+.vercel
+.wrangler
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker
+*docker-compose*
+
+# Backup files
+*.bak
+*.backup
+*.srl
+*.jks
+*.crt
+ca-cert
+ca-key
+cert-file
+cert-signed
+__pycache__
+opt
+acme.json
+storage/*
+test.*
+.s3cfg
+Dockerfile.*
+deploy/prd/watchtower/config/*
+
+
+# Files keeping
+!example.env
+!*.example
+!dev.env
+!Dockerfile
+!docker-compose.dev.yml
+!docker-compose.stg.yml
+!docker-compose.prd.yml
+!docker-compose.monitor.yml
+!.gitkeep
