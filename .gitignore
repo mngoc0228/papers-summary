@@ -89,3 +89,4 @@ deploy/prd/watchtower/config/*
 !docker-compose.prd.yml
 !docker-compose.monitor.yml
 !.gitkeep
+data/

@@ -6,8 +6,9 @@ from src.routes.paper.paper_routes import paper_route
 
 app = FastAPI(
     title="Hệ thống Theo dõi & Tóm tắt Paper API",
-    description="API cho ứng dụng đọc báo khoa học tự động tóm tắt",
-    version="1.0.0"
+    description="API cho ứng dụng đọc báo khoa học",
+    version="1.0.0",
+    docs_url="/docs",
 )
 
 app.include_router(auth_route)
