@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from src.database.db import create_db_and_tables
 from src.routes.auth.auth_routes import auth_route 
 from src.routes.favorite.favorite_routes import favorite_route
 from src.routes.user.user_routes import user_route
@@ -20,3 +21,7 @@ app.include_router(paper_route)
 @app.get("/")
 async def root():
     return {"message": f"Hello World! Welcome to Paper Tracker API"}
+
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()

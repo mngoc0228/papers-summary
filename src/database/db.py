@@ -1,4 +1,4 @@
-from sqlmodel import Session, create_engine
+from sqlmodel import SQLModel, Session, create_engine
 
 from src.config import settings
 
@@ -19,3 +19,6 @@ def init_db(session: Session) -> None:
     # This works because the models are already imported and registered from app.models
     # SQLModel.metadata.create_all(engine)
     """    # Create initial data"""
+
+def create_db_and_tables():
+    SQLModel.metadata.create_all(engine)

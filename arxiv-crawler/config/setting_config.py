@@ -1,9 +1,11 @@
+from dotenv import load_dotenv
 from pydantic import PostgresDsn, computed_field
 from pydantic_settings import BaseSettings
 
-class Settings(BaseSettings):
-    PORT: int = 8000
 
+load_dotenv()
+
+class Settings(BaseSettings):
     POSTGRES_SERVER: str
     POSTGRES_PORT: int = 5432
     POSTGRES_USER: str
@@ -15,7 +17,7 @@ class Settings(BaseSettings):
     ALGORITHM: str = 'HS256'
     EXPIRE_MINUTES: int = 20000  # 20.000 minutes ~ 14 days
 
-    @computed_field  # type: ignore[prop-decorator] 
+    @computed_field
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> PostgresDsn:
         return PostgresDsn.build(
@@ -26,6 +28,9 @@ class Settings(BaseSettings):
             port=self.POSTGRES_PORT,
             path=self.POSTGRES_DB,
         )
+
+    class Config:
+        ignore_extra = True
 
 
 settings = Settings()

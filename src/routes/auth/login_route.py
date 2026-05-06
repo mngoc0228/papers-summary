@@ -1,7 +1,32 @@
+from fastapi import Depends, status
+
+from src.dto.auth_dto import AuthDto
 from src.routes.auth import router
+from src.core.exception_model import ExceptionModel
+from src.services.auth.auth_service import AuthServiceImpl
+from src.services.dependencies import get_auth_service
+from src.core.handle_exception import UnauthorizedError
+
 
 @router.post(
     '/login',
+    status_code=status.HTTP_200_OK,
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            'model': ExceptionModel,
+        },
+    }
 )
-async def login():
-    return {"access_token": "fake-jwt-token", "token_type": "bearer"}
+async def login(
+    data: AuthDto,
+    auth_service: AuthServiceImpl = Depends(get_auth_service),
+):
+    try:
+        result = await auth_service.authenticate(data.email, data.password)
+        if not result:
+            raise UnauthorizedError('Invalid email or password')
+        return {
+            "access_token": result['access_token'],
+        }
+    except Exception as e:
+        raise 

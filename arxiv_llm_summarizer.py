@@ -7,6 +7,7 @@ if sys.stdout.encoding != 'utf-8':
     sys.stdout.reconfigure(encoding='utf-8')
 
 import requests
+import json
 import xml.etree.ElementTree as ET
 from datetime import datetime
 import psycopg2
@@ -119,32 +120,29 @@ def summarize_with_llm(abstract):
         f"{abstract}"
     )
 
-#     curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent" \
-#   -H "x-goog-api-key: $GEMINI_API_KEY" \
-#   -H 'Content-Type: application/json' \
-#   -X POST \
-#   -d '{
-#     "contents": [
-#       {
-#         "parts": [
-#           {
-#             "text": "Explain how AI works in a few words"
-#           }
-#         ]
-#       }
-#     ]
-#   }'
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+    url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+
+    payload = json.dumps(
+        {
+            "contents": [
+                {
+                "parts": [
+                    {
+                    "text": prompt
+                    }
+                ]
+                }
+            ]
+        }
+    )
+
     headers = {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': API_KEY
-    }
-    payload = {
-        "contents": [{"parts": [{"text": prompt}]}]
+        'x-goog-api-key': API_KEY,
+        'Content-Type': 'application/json'
     }
 
     try:
-        response = requests.post(url, headers=headers, json=payload)
+        response = requests.request("POST", url, headers=headers, data=payload)
         response.raise_for_status()
         data = response.json()
         summary = data['candidates'][0]['content']['parts'][0]['text']
