@@ -2,6 +2,7 @@ import asyncio
 import logging
 import random
 
+from services.openai.openai_service import OpenAIService
 from services.papers.arxiv_service import ArxivService
 from models.paper import PaperModel
 from models.topic import TopicModel
@@ -54,9 +55,9 @@ async def fetch_and_store_papers_for_topics(engine, topics: list[TopicModel]):
     """
     try:
         arxiv_service = ArxivService()
-        genai_service = GoogleGenAIService(api_key=settings.GEMINI_API_KEY)
+        openai_service = OpenAIService()
         paper_service = PaperService(engine)
-        topic_service = TopicService(engine, genai_service)
+        topic_service = TopicService(engine, openai_service=openai_service)
         for topic in topics:
             # slow request to avoid too many requests to arxiv api in a short time
             # When using the legacy APIs (including OAI-PMH, RSS, and the arXiv API), make no more than one request every three seconds, and limit requests to a single connection at a time.
