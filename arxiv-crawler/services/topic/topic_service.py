@@ -50,7 +50,6 @@ class TopicService:
                     paper.summary = summary
                 paper.topics.append(persistent_topic)
                 session.add(paper)
-                break
             session.commit()
         except Exception as e:
             logging.error(f"Error creating papers for topic: {e}")

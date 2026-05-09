@@ -77,6 +77,5 @@ async def fetch_and_store_papers_for_topics(engine, topics: list[TopicModel]):
                 paper_models.append(paper_model)
             
             await topic_service.create_papers_via_topic(topic, paper_models)
-            break
     except Exception as e:
         logging.error(f"Error fetching and storing papers for topic {topic.name}: {e}")
