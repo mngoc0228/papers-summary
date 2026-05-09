@@ -10,11 +10,13 @@ class GoogleGenAIService:
 
     async def summarize_text(self, content: str) -> str:
         try:
+            logging.info("Summarizing text with Google GenAI")
             response: GenerateContentResponse = self.client.models.generate_content(
-                model="gemini-2.0-flash",
+                model="gemini-2.5-flash",
                 contents=content
             )
 
+            logging.info("Text summarized successfully with Google GenAI")
             return response.text
         except Exception as e:
             logging.error(f"Error summarizing text with Google GenAI: {e}")
