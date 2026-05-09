@@ -12,10 +12,8 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = ""
     POSTGRES_DB: str = ""
 
-    ## JWT settings
-    JWT_SECRET_KEY: str
-    ALGORITHM: str = 'HS256'
-    EXPIRE_MINUTES: int = 20000  # 20.000 minutes ~ 14 days
+    # Google GenAI API key
+    GEMINI_API_KEY: str
 
     @computed_field
     @property

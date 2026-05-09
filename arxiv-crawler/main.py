@@ -10,8 +10,6 @@ from dotenv import load_dotenv
 
 from store.app_context import app_context
 
-listener_tasks = []
-
 load_dotenv()
 
 logging.config.dictConfig({
@@ -34,7 +32,6 @@ logging.config.dictConfig({
 })
 
 async def start_worker():
-    global listener_tasks
     try:
         # Start up application context
         await app_context.start_up()
@@ -43,12 +40,6 @@ async def start_worker():
             await asyncio.sleep(1)
     except asyncio.CancelledError:
         logging.info("Main task cancelled. Shutting down listeners...")
-        for task in listener_tasks:
-            task.cancel()
-            try:
-                await task
-            except asyncio.CancelledError:
-                logging.info("Listener task cancelled successfully.")
     finally:
         await app_context.shut_down()
         logging.info("Application shut down complete.")
