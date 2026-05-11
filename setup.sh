@@ -14,9 +14,9 @@ done
 docker compose -f ./cmp-base.yml \\
         ./arxiv-crawler/docker-compose.yml \\
         ./backend/docker-compose.yml \\
-        ./paper-system-fe/docker-compose.yml down
+        ./front-end/docker-compose.yml down
 
 docker compose -f ./cmp-base.yml \\
         ./arxiv-crawler/docker-compose.yml \\
         ./backend/docker-compose.yml \\
-        ./paper-system-fe/docker-compose.yml up -d --build
+        ./front-end/docker-compose.yml up -d --build
