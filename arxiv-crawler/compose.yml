@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     env_file:
-      - .env
+      - ./arxiv-crawler/.env
     networks:
       - paper-summary-network
     depends_on:
