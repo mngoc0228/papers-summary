@@ -1,0 +1,58 @@
+config/projects.json
+config/deployments.json
+
+# Cache and temporary files
+.cache/
+*.cache
+tmp/
+*.tmp
+.tmp
+
+# Log files
+logs/*
+*.log
+log/
+*.txt
+
+# Environment files
+*.env*
+.env
+.env.local
+.env.*.local
+
+# Security files
+*.secret
+*.pem
+*.key
+*.cert
+*.csr
+id_rsa*
+id_ed25519*
+
+# Development files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.upload_results.json
+
+# Dependencies
+node_modules/
+.venv/
+*.venv*
+# Frontend
+.next
+.vercel
+.wrangler
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+data/*

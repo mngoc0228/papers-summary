@@ -1,22 +1,21 @@
 #!bin/bash
 
 declare branch='main'
+git pull origin $branch
 
-for dir in ./*                                                
-do                                                                                 
-    cd $dir
-    git pull origin $branch
-    cp .env.example .env
-    cd ..
-fi                                                                
+for dir in ./*
+do
+    if [ -d "$dir" ]; then
+        echo "Processing $dir"
+        cd $dir
+        cp .env.example .env
+        cd ..
+    fi
 done
 
-docker compose -f ./cmp-base.yml \\
-        ./arxiv-crawler/docker-compose.yml \\
-        ./backend/docker-compose.yml \\
-        ./front-end/docker-compose.yml down
+echo "================================"
+echo "Docker processing... Current directory: $(pwd)"
 
-docker compose -f ./cmp-base.yml \\
-        ./arxiv-crawler/docker-compose.yml \\
-        ./backend/docker-compose.yml \\
-        ./front-end/docker-compose.yml up -d --build
+docker compose -f ./compose-base.yml -f ./arxiv-crawler/compose.yml -f ./backend/compose.yml -f ./front-end/compose.yml down
+
+docker compose -f ./compose-base.yml -f ./arxiv-crawler/compose.yml -f ./backend/compose.yml -f ./front-end/compose.yml up -d --build
