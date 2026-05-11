@@ -2,10 +2,10 @@
 services:
   paper-crawler:
     build:
-      context: .
+      context: $BASE_DIR
       dockerfile: Dockerfile
     env_file:
-      - ./arxiv-crawler/.env
+      - $BASE_DIR/.env
     networks:
       - paper-summary-network
     depends_on:

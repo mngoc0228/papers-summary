@@ -53,11 +53,11 @@ COPY --from=builder --chown=node:node /app/public ./public
 RUN mkdir .next
 RUN chown node:node .next
 
-COPY --from=builder --chown=node:node /app/.next/standalone ./
-COPY --from=builder --chown=node:node /app/.next/static ./.next/static
+# Copy all from builder to runner, but only the necessary files for production
+COPY --from=builder --chown=node:node /app ./
 
 USER node
 
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["npm", "start"]

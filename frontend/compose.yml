@@ -2,14 +2,12 @@
 services:
   paper-frontend:
     build:
-      context: .
-      dockerfile: Dockerfile.frontend
+      context: ${BASE_DIR}
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     env_file:
-      - ./front-end/.env
-    depends_on:
-      - paper-backend
+      - $BASE_DIR/.env
     restart: always
     networks:
       - paper-summary-network

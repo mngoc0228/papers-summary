@@ -2,17 +2,16 @@
 services:
   paper-backend:
     build:
-      context: .
+      context: $BASE_DIR
       dockerfile: Dockerfile
     env_file:
-      - ./backend/.env
+      - $BASE_DIR/.env
     ports:
       - "8000:8000"
     networks:
       - paper-summary-network
     depends_on:
       - paper-db
-      - paper-crawler
 
 networks:
   paper-summary-network:
