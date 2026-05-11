@@ -1,7 +1,13 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const getBaseUrl = () => {
+  if (typeof window === 'undefined') {
+    return process.env.API_URL_SERVER || process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  }
+  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+};
 
 export async function apiRequest(endpoint: string, options: RequestInit = {}) {
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
+  const baseUrl = getBaseUrl();
+  const res = await fetch(`${baseUrl}${endpoint}`, {
     ...options,
     headers: {
       "Content-Type": "application/json",

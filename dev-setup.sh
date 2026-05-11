@@ -27,6 +27,7 @@ do
     if [ -d "$service" ]; then
         echo "Processing $service"
         cd $service
+        cp .env.example .env
         export BASE_DIR=$(pwd)
         run_service $service
         cd ..

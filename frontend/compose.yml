@@ -3,7 +3,7 @@ services:
   paper-frontend:
     build:
       context: ${BASE_DIR}
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
     env_file:

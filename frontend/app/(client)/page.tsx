@@ -6,8 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowRight, ChevronRight, Sparkles } from "lucide-react";
 
 export default async function HomePage() {
-  let papers = [];
-  try { papers = await apiRequest("/papers?page=1&size=6"); } catch (e) {}
+  const papers = await apiRequest("/papers?page=1&size=6").catch((e) => {
+    console.error("Failed to fetch papers:", e);
+    return { data: [] };
+  });
 
   return (
     <div className="flex flex-col gap-20 pb-20">

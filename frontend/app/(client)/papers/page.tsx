@@ -207,7 +207,7 @@ function PapersListContent() {
                   </span>
                 </div>
                 <p className="text-zinc-500 text-sm leading-relaxed line-clamp-3 italic">
-                  &quot;{paper.abstract || paper.summary || "Không có tóm tắt"}
+                  &quot;{paper.summary || paper.abstract || "Không có tóm tắt"}
                   &quot;
                 </p>
               </CardContent>
