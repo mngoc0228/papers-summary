@@ -1,11 +1,16 @@
 from datetime import datetime
+from typing import TYPE_CHECKING
 import uuid
 
 from pydantic import EmailStr
 from sqlalchemy import DateTime
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, Relationship, SQLModel
 
 from src.utils.util import get_datetime_utc
+from src.database.models.follow_topic import FollowTopicModel
+
+if TYPE_CHECKING:
+    from src.database.models.follow_topic import FollowTopicModel
 
 
 class UserModel(SQLModel, table=True):
@@ -22,6 +27,8 @@ class UserModel(SQLModel, table=True):
         sa_type=DateTime(timezone=True),
     )
     avatar: str | None = Field(default=None, max_length=255)
+
+    topics: list["FollowTopicModel"] = Relationship(back_populates="user", link_model=FollowTopicModel, cascade_delete=True)
 
     def to_dict(self):
         return {
