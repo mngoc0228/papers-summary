@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { apiRequest } from "@/lib/api";
 
 const handler = NextAuth({
   providers: [
@@ -10,7 +11,7 @@ const handler = NextAuth({
         password: { type: "password" }
       },
       async authorize(credentials) {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+        const res = await apiRequest("/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(credentials),
@@ -19,7 +20,7 @@ const handler = NextAuth({
         const authData = await res.json();        
 
         if (res.ok && authData.data.access_token) {
-          const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+          const userRes = await apiRequest("/users/me", {
             method: "GET",
             headers: { 
               "Authorization": `Bearer ${authData.data.access_token}` 

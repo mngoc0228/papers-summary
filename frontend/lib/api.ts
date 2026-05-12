@@ -1,8 +1,9 @@
 const getBaseUrl = () => {
-  if (typeof window === 'undefined') {
-    return process.env.API_URL_SERVER || process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-  }
-  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  return typeof window === "undefined" || typeof window === undefined
+    ? process.env.API_URL_SERVER ||
+        process.env.NEXT_PUBLIC_API_URL ||
+        "http://localhost:8000"
+    : process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 };
 
 export async function apiRequest(endpoint: string, options: RequestInit = {}) {
@@ -19,5 +20,6 @@ export async function apiRequest(endpoint: string, options: RequestInit = {}) {
     const error = await res.json().catch(() => ({}));
     throw new Error(error.detail || "Có lỗi xảy ra");
   }
+
   return res.json();
 }

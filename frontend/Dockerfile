@@ -29,6 +29,16 @@ COPY . .
 
 ENV NODE_ENV=production
 
+ARG NEXT_PUBLIC_API_URL
+ARG API_URL_SERVER
+ARG NEXTAUTH_SECRET
+ARG NEXTAUTH_URL
+
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL} \
+    API_URL_SERVER=${API_URL_SERVER} \
+    NEXTAUTH_SECRET=${NEXTAUTH_SECRET} \
+    NEXTAUTH_URL=${NEXTAUTH_URL}
+
 RUN if [ -f package-lock.json ]; then \
     npm run build; \
   elif [ -f yarn.lock ]; then \
@@ -53,7 +63,6 @@ COPY --from=builder --chown=node:node /app/public ./public
 RUN mkdir .next
 RUN chown node:node .next
 
-# Copy all from builder to runner, but only the necessary files for production
 COPY --from=builder --chown=node:node /app ./
 
 USER node

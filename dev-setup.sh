@@ -29,6 +29,7 @@ do
         cd $service
         cp .env.example .env
         export BASE_DIR=$(pwd)
+        printenv | grep "BASE_DIR"
         run_service $service
         cd ..
     fi
