@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Users, Sparkles, Calendar } from "lucide-react";
-import IPaper from "@/types";
+import {IPaper, ITopic } from "@/types";
 
 type PapersResponse = {
   data?: IPaper[];
@@ -169,7 +169,7 @@ function PapersListContent() {
               <CardHeader className="p-5 space-y-4">
                 <div className="flex items-center justify-between w-full">
                   <div className="flex flex-wrap gap-2 justify-start">
-                    {paper.topics?.map((topic) => (
+                    {paper.topics?.map((topic: ITopic) => (
                       <Badge
                         key={topic.name}
                         variant="secondary"

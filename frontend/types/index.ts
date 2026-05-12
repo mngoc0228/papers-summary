@@ -1,4 +1,4 @@
-export default interface IPaper {
+export  interface IPaper {
   id: string;
   title: string;
   abstract: string;
@@ -9,7 +9,7 @@ export default interface IPaper {
   topics: ITopic[];
 }
 
-interface ITopic {
+export interface ITopic {
   id: string;
   name: string;
   code: string;

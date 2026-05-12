@@ -10,7 +10,7 @@ from src.services.topic.topic_service import TopicServiceImpl
 
 @router.post('/{topic_id}/follow')
 async def follow_topic(
-    topic_id: str,
+    topic_id: uuid.UUID,
     current_user: UserModel = Depends(get_current_user),
     topic_service: TopicServiceImpl = Depends(get_topic_service)
 ):

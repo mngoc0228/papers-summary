@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Calendar, User, ExternalLink } from "lucide-react"; // Thêm ExternalLink
 import { Button } from "@/components/ui/button"; // Thêm Button
-import IPaper from "@/types";
+import { IPaper } from "@/types";
 
 export default async function PaperDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

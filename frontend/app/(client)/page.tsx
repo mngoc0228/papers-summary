@@ -12,13 +12,20 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, ChevronRight, Sparkles } from "lucide-react";
 
+async function fetchPapers() {
+  try {
+    const response = await apiRequest("/papers?page=1&size=6", {
+      cache: "no-store",
+    });
+    return response.data || [];
+  } catch (error) {
+    console.error("Failed to fetch papers:", error);
+    return [];
+  }
+}
+
 export default async function HomePage() {
-  const papers = await apiRequest("/papers?page=1&size=6", {
-    cache: "no-store",
-  }).catch((e) => {
-    console.error("Failed to fetch papers:", e);
-    return { data: [] };
-  });
+  const papers = await fetchPapers();
 
   return (
     <div className="flex flex-col gap-20 pb-20">

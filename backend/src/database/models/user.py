@@ -8,9 +8,11 @@ from sqlmodel import Field, Relationship, SQLModel
 
 from src.utils.util import get_datetime_utc
 from src.database.models.follow_topic import FollowTopicModel
+from src.database.models.favorite_paper import FavoritePaperModel
 
 if TYPE_CHECKING:
     from src.database.models.follow_topic import TopicModel
+    from src.database.models.paper import PaperModel
 
 
 class UserModel(SQLModel, table=True):
@@ -29,6 +31,7 @@ class UserModel(SQLModel, table=True):
     avatar: str | None = Field(default=None, max_length=255)
 
     followed_topics: list["TopicModel"] = Relationship(back_populates="followers", link_model=FollowTopicModel)
+    favorite_papers: list["PaperModel"] = Relationship(back_populates="favorite_users", link_model=FavoritePaperModel)
 
     def to_dict(self):
         return {

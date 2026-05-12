@@ -1,7 +1,9 @@
 import uuid
 
-from sqlmodel import Session, select
+from fastapi_pagination import Page
+from sqlmodel import Session, func, select
 
+from src.core.base_response import CustomParams
 from src.database.models.user import UserModel
 from src.database.models.topic import TopicModel
 
@@ -51,5 +53,31 @@ class TopicServiceImpl:
             return {
                 "message": "Unfollowed the topic successfully"
             }
+        except Exception as e:
+            raise e
+
+    async def get_followed_topics(self, user_id: str, page: int = 1, size: int = 50) -> Page[TopicModel]:
+        try:
+            count_statement = (
+                select(func.count())
+                .select_from(TopicModel)
+                .join(TopicModel.followers)
+                .where(UserModel.id == user_id)
+            )
+            total = self.connection.exec(count_statement).one()
+            statement = (
+                select(TopicModel)
+                .join(TopicModel.followers)
+                .where(UserModel.id == user_id)
+                .order_by(TopicModel.name.asc())
+                .offset((page - 1) * size)
+                .limit(size)
+            )
+            topics = self.connection.exec(statement).all()
+            return Page.create(
+                items=[topic.to_dict() for topic in topics],
+                total=total,
+                params=CustomParams(page=page, size=size)
+            )
         except Exception as e:
             raise e

@@ -1,11 +1,8 @@
 from typing import TYPE_CHECKING
 import uuid
 
-from sqlmodel import Field, Relationship, SQLModel
+from sqlmodel import Field, SQLModel
 
-if TYPE_CHECKING:
-    from src.database.models.user import UserModel
-    from src.database.models.topic import TopicModel
 
 class FollowTopicModel(SQLModel, table=True):
     __tablename__ = "follow_topics"

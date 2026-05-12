@@ -1,3 +1,5 @@
+import uuid
+
 from fastapi import Depends
 
 from src.core.base_response import http_ok
@@ -7,7 +9,7 @@ from src.services.topic.topic_service import TopicServiceImpl
 
 @router.post('/{topic_id}/unfollow')
 async def unfollow_topic(
-    topic_id: str,
+    topic_id: uuid.UUID,
     current_user = Depends(get_current_user),
     topic_service: TopicServiceImpl = Depends(get_topic_service)
 ):

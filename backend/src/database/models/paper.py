@@ -6,8 +6,11 @@ from sqlalchemy.types import JSON
 from sqlmodel import Field, Relationship, SQLModel
 
 from src.database.models.topic_paper_link import TopicPaperLinkModel
+from src.database.models.favorite_paper import FavoritePaperModel
+
 if TYPE_CHECKING:
     from src.database.models.topic import TopicModel
+    from src.database.models.user import UserModel
 
 
 
@@ -23,6 +26,8 @@ class PaperModel(SQLModel, table=True):
     summary: str = Field(default="", nullable=True)
 
     topics: list["TopicModel"] = Relationship(back_populates="papers", link_model=TopicPaperLinkModel)
+
+    favorite_users: list["UserModel"] = Relationship(back_populates="favorite_papers", link_model=FavoritePaperModel)
 
     def get_authors_str(self) -> str:
         return ", ".join(self.authors)

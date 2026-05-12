@@ -11,30 +11,24 @@ const handler = NextAuth({
         password: { type: "password" }
       },
       async authorize(credentials) {
-        const res = await apiRequest("/auth/login", {
+        const authData = await apiRequest("/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(credentials),
         });
 
-        const authData = await res.json();        
-
-        if (res.ok && authData.data.access_token) {
-          const userRes = await apiRequest("/users/me", {
+        if (authData.data.access_token) {
+          const userData = await apiRequest("/users/me", {
             method: "GET",
             headers: { 
               "Authorization": `Bearer ${authData.data.access_token}` 
             },
           });
 
-          const userData = await userRes.json();
-
-          if (userRes.ok) {
-            return {
-              ...userData.data,
-              access_token: authData.data.access_token,
-            };
-          }
+          return {
+            ...userData.data,
+            access_token: authData.data.access_token,
+          };
         }
         return null;
       }

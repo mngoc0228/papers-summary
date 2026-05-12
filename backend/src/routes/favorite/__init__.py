@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
 router = APIRouter(
-    prefix="/papers/{id}/favorites",
+    prefix="/papers",
     tags=["favorites"],
 )
