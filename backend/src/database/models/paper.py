@@ -22,7 +22,7 @@ class PaperModel(SQLModel, table=True):
     url: str = Field()
     summary: str = Field(default="", nullable=True)
 
-    topics: list["TopicModel"] = Relationship(back_populates="papers", link_model=TopicPaperLinkModel, cascade_delete=True)
+    topics: list["TopicModel"] = Relationship(back_populates="papers", link_model=TopicPaperLinkModel)
 
     def get_authors_str(self) -> str:
         return ", ".join(self.authors)

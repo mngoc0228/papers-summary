@@ -1,4 +1,6 @@
 
+import logging
+
 from sqlmodel import Session, select
 
 from src.database.models.user import UserModel
@@ -17,18 +19,23 @@ class UserServiceImpl():
         return session_user
 
     async def create_user(self, email: str, hashed_password: str, full_name: str | None = None, is_admin = False) -> UserModel:
-        # Check if user with the same email already exists
-        existing_user = await self.get_user_by_email(email)
-        if existing_user:
-            raise Exception("User with this email already exists")
+        try:
+            # Check if user with the same email already exists
+            existing_user = await self.get_user_by_email(email)
+            if existing_user:
+                raise Exception("User with this email already exists")
 
-        new_user = UserModel(
-            email=email,
-            hashed_password=hashed_password,
-            full_name=full_name,
-            is_admin=is_admin,
-        )
-        self.connection.add(new_user)
-        self.connection.commit()
-        self.connection.refresh(new_user)
-        return new_user.to_dict()
+            new_user = UserModel(
+                email=email,
+                hashed_password=hashed_password,
+                full_name=full_name,
+                is_admin=is_admin,
+            )
+            self.connection.add(new_user)
+            self.connection.commit()
+            self.connection.refresh(new_user)
+            return new_user.to_dict()
+        except Exception as e:
+            self.connection.rollback()
+            logging.error(f"Error creating user: {str(e)}")
+            raise e

@@ -32,6 +32,6 @@ async def create_user(
     except ConflictError as conflict_error:
         raise conflict_error
     except Exception as e:
-        raise InternalServerError(message=str(e))
+        raise InternalServerError(message=str("Server error"))
 
     return http_ok(data=user)

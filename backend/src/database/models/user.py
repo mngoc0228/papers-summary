@@ -10,7 +10,7 @@ from src.utils.util import get_datetime_utc
 from src.database.models.follow_topic import FollowTopicModel
 
 if TYPE_CHECKING:
-    from src.database.models.follow_topic import FollowTopicModel
+    from src.database.models.follow_topic import TopicModel
 
 
 class UserModel(SQLModel, table=True):
@@ -28,7 +28,7 @@ class UserModel(SQLModel, table=True):
     )
     avatar: str | None = Field(default=None, max_length=255)
 
-    topics: list["FollowTopicModel"] = Relationship(back_populates="user", link_model=FollowTopicModel, cascade_delete=True)
+    followed_topics: list["TopicModel"] = Relationship(back_populates="followers", link_model=FollowTopicModel)
 
     def to_dict(self):
         return {

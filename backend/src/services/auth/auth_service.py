@@ -35,7 +35,7 @@ class AuthServiceImpl():
         session_user = self.connection.exec(statement).first()
         return session_user
     
-    async def get_current_user(self, sub: str):
+    async def get_current_user(self, sub: str) -> UserModel | None:
         if not sub:
             return None 
         
@@ -43,7 +43,7 @@ class AuthServiceImpl():
         if not existed_user:
             return None
         
-        return existed_user.to_dict()
+        return existed_user
 
     def create_access_token(self, user: UserModel) -> str:
         expire_minutes = SETTINGS.EXPIRE_MINUTES
