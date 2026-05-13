@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { apiRequest } from "@/lib/api";
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "FastAPI",
@@ -53,6 +53,8 @@ const handler = NextAuth({
     },
   },
   pages: { signIn: "/login" }
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

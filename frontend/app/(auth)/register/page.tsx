@@ -18,7 +18,7 @@ export default function RegisterPage() {
     avatar: ""
   });
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const { push } = useRouter();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +28,7 @@ export default function RegisterPage() {
         method: "POST",
         body: JSON.stringify(formData),
       });
-      router.push("/login?status=success");
+      push("/login?status=success");
     } catch (err) {
       alert("Đăng ký lỗi: Email có thể đã tồn tại.");
     } finally {
@@ -40,8 +40,8 @@ export default function RegisterPage() {
     <div className="w-full max-w-[420px] animate-in fade-in duration-500">
       <Card className="border-zinc-200 shadow-xl bg-white">
         <CardHeader className="space-y-3 pb-8 text-center">
-          <div className="mx-auto w-12 h-12 bg-zinc-900 rounded-2xl flex items-center justify-center mb-2 shadow-lg">
-            <UserPlus className="text-white h-6 w-6" />
+          <div className="mx-auto size-12 bg-zinc-900 rounded-2xl flex items-center justify-center mb-2 shadow-lg">
+            <UserPlus className="text-white size-6" />
           </div>
           <CardTitle className="text-2xl font-bold tracking-tight">Tạo tài khoản mới</CardTitle>
           <CardDescription className="text-zinc-500">Tham gia hệ thống tóm tắt báo khoa học</CardDescription>
@@ -54,7 +54,7 @@ export default function RegisterPage() {
               <Input 
                 placeholder="Nguyễn Văn A" 
                 className="h-12 bg-zinc-50/50" 
-                onChange={e => setFormData({...formData, full_name: e.target.value})}
+                onChange={e => setFormData(prev => ({...prev, full_name: e.target.value}))}
               />
             </div>
             <div className="space-y-2">
@@ -63,7 +63,7 @@ export default function RegisterPage() {
                 type="email" 
                 placeholder="name@example.com" 
                 className="h-12 bg-zinc-50/50" 
-                onChange={e => setFormData({...formData, email: e.target.value})}
+                onChange={e => setFormData(prev => ({...prev, email: e.target.value}))}
                 required 
               />
             </div>
@@ -72,14 +72,14 @@ export default function RegisterPage() {
               <Input 
                 type="password" 
                 className="h-12 bg-zinc-50/50" 
-                onChange={e => setFormData({...formData, password: e.target.value})}
+                onChange={e => setFormData(prev => ({...prev, password: e.target.value}))}
                 required 
               />
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-6 pt-8 pb-10">
             <Button className="w-full h-12 bg-zinc-900 hover:bg-zinc-800 text-white font-bold" disabled={loading}>
-              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Đăng ký thành viên"}
+              {loading ? <Loader2 className="size-4 animate-spin" /> : "Đăng ký thành viên"}
             </Button>
             <p className="text-center text-sm text-zinc-500">
               Đã có tài khoản? <Link href="/login" className="text-zinc-900 font-bold hover:underline">Đăng nhập</Link>

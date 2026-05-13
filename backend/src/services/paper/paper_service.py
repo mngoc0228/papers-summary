@@ -139,3 +139,15 @@ class PaperServiceImpl:
             )
         except Exception as e:
             raise e
+
+    async def get_favorite_paper_by_user_id_and_paper_id(self, user_id: str, paper_id: str) -> PaperModel | None:
+        try:
+            statement = (
+                select(PaperModel)
+                .join(PaperModel.favorite_users)
+                .where(col(UserModel.id) == user_id, col(PaperModel.id) == paper_id)
+            )
+            paper = self.connection.exec(statement).one_or_none()
+            return paper.to_dict() if paper else None
+        except Exception as e:
+            raise e
