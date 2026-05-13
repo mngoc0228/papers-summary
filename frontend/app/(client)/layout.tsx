@@ -7,8 +7,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       <AuthProvider>
         <div className="relative min-h-screen flex flex-col bg-[#fafafa]">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-zinc-100/50 blur-[120px]" />
-            <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] rounded-full bg-zinc-100/50 blur-[120px]" />
+            <div className="absolute -top-[10%] -left-[10%] size-[40%] rounded-full bg-zinc-100/50 blur-[120px]" />
+            <div className="absolute -bottom-[10%] -right-[10%] size-[40%] rounded-full bg-zinc-100/50 blur-[120px]" />
           </div>
   
           <Navbar />
@@ -18,9 +18,9 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           </main>
           <Toaster />
   
-          <footer className="border-t bg-white/50 backdrop-blur-sm py-6">
-            <div className="container max-w-7xl mx-auto px-4 text-center text-xs text-zinc-400 font-medium">
-              © {new Date().getFullYear()} PaperSum — Công cụ tóm tắt nghiên cứu khoa học chuyên nghiệp.
+          <footer className="border-t bg-white/50 backdrop-blur-sm py-6" suppressHydrationWarning>
+            <div className="container max-w-7xl mx-auto px-4 text-center text-xs text-zinc-400 font-medium" suppressHydrationWarning>
+              © {new Date().getFullYear()} PaperSum - Công cụ tóm tắt nghiên cứu khoa học chuyên nghiệp.
             </div>
           </footer>
         </div>

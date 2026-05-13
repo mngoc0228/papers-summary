@@ -1,6 +1,5 @@
 import AdminSidebar from "@/components/AdminSidebar";
 import AuthProvider from "@/components/AuthProvider";
-import { Separator } from "@/components/ui/separator";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -22,7 +21,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <p className="text-xs font-bold text-zinc-900">Khai Nguyen</p>
                 <p className="text-[10px] text-zinc-400 uppercase tracking-widest font-bold">Quản trị viên</p>
               </div>
-              <div className="w-8 h-8 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center font-bold text-xs">
+              <div className="size-8 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center font-bold text-xs">
                 KN
               </div>
             </div>
