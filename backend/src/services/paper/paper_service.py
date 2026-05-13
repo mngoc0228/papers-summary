@@ -14,17 +14,18 @@ class PaperServiceImpl:
 
     async def get_papers(self, q: str = None, topic_id: str = None, page: int = 1, size: int = 50) -> Page[PaperModel]:
         try:
-            count_statement = select(func.count()).select_from(PaperModel)
+            count_statement = (select(func.count()).select_from(PaperModel))
             statement = (
                 select(PaperModel).order_by(col(PaperModel.published_date).desc()).offset((page - 1) * size).limit(size)
             )
 
             if q:
-                count_statement = count_statement.where((col("title").ilike(f"%{q}%")))
+                count_statement = count_statement.where(PaperModel.title.ilike(f"%{q}%"))
+                statement = statement.where(PaperModel.title.ilike(f"%{q}%"))
 
             if topic_id:
-                count_statement = count_statement.join(PaperModel.topics).where(col(TopicModel.id) == topic_id)
-                statement = statement.join(PaperModel.topics).where(col(TopicModel.id) == topic_id)
+                count_statement = (count_statement.join(PaperModel.topics).where(col(TopicModel.id) == topic_id))
+                statement = (statement.join(PaperModel.topics).where(col(TopicModel.id) == topic_id))
 
             count = self.connection.exec(count_statement).one()
             papers = self.connection.exec(statement).all()

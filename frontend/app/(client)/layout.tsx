@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import AuthProvider from "@/components/AuthProvider";
+import { Toaster } from "@/components/ui/sonner"
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,6 +16,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           <main className="relative flex-grow flex items-center justify-center py-16 px-4">
             {children}
           </main>
+          <Toaster />
   
           <footer className="border-t bg-white/50 backdrop-blur-sm py-6">
             <div className="container max-w-7xl mx-auto px-4 text-center text-xs text-zinc-400 font-medium">

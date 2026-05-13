@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Users, Sparkles, Calendar } from "lucide-react";
-import {IPaper, ITopic } from "@/types";
+import { IPaper, ITopic } from "@/types";
 
 type PapersResponse = {
   data?: IPaper[];
@@ -40,6 +40,7 @@ function PapersListContent() {
 
   const currentPage = Math.max(1, Number(searchParams.get("page") || 1));
   const selectedTopicId = searchParams.get("topic") || "";
+  const searchQuery = searchParams.get("q") || "";
 
   const [papers, setPapers] = useState<IPaper[]>([]);
   const [loading, setLoading] = useState(true);
@@ -57,6 +58,9 @@ function PapersListContent() {
         let url = `/papers?page=${currentPage}&size=${pageSize}`;
         if (selectedTopicId) {
           url += `&topic_id=${selectedTopicId}`;
+        }
+        if (searchQuery) {
+          url += `&q=${encodeURIComponent(searchQuery)}`;
         }
         const response = (await apiRequest(url, {
           cache: "no-store",
@@ -81,7 +85,7 @@ function PapersListContent() {
     return () => {
       active = false;
     };
-  }, [currentPage, selectedTopicId]);
+  }, [currentPage, selectedTopicId, searchQuery]);
 
   useEffect(() => {
     apiRequest(`/topics`, { cache: "no-store" })
@@ -91,12 +95,25 @@ function PapersListContent() {
       .catch(() => setTopics([]));
   }, []);
 
-  const updateFilters = (nextPage: number, nextTopicId?: string | null) => {
+  const updateFilters = (
+    nextPage: number,
+    nextTopicId?: string | null,
+    searchQuery?: string,
+  ) => {
     const params = new URLSearchParams(searchParams.toString());
+
     if (nextPage <= 1) params.delete("page");
     else params.set("page", String(nextPage));
+
     if (nextTopicId === null) params.delete("topic");
-    else if (nextTopicId !== undefined) params.set("topic", nextTopicId);
+    else if (nextTopicId) params.set("topic", nextTopicId);
+
+    if (searchQuery !== undefined) {
+      if (searchQuery === "") params.delete("q");
+      else params.set("q", searchQuery);
+      params.set("page", "1");
+    }
+
     router.push(`?${params.toString()}`);
   };
 
@@ -123,7 +140,13 @@ function PapersListContent() {
         <div className="relative max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
           <Input
-            placeholder="Tìm tên bài báo"
+            placeholder="Tìm tên bài báo..."
+            defaultValue={searchParams.get("q") || ""}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                updateFilters(1, undefined, e.currentTarget.value);
+              }
+            }}
             className="pl-10 h-10 bg-white border-zinc-200 focus-visible:ring-zinc-900"
           />
         </div>
