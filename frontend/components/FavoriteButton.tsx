@@ -23,12 +23,15 @@ export default function FavoriteButton({
 
   const toggleFavorite = async () => {
     if (!session) {
-      return toast.error("Yêu cầu đăng nhập", {
+      return toast.warning("Yêu cầu đăng nhập", {
         description: "Vui lòng đăng nhập để lưu bài báo vào thư viện.",
         action: {
           label: "Đăng nhập",
           onClick: () => router.push("/login"),
         },
+        duration: 2000,
+        closeButton: true,
+        position: "top-center",
       });
     }
 
@@ -50,6 +53,9 @@ export default function FavoriteButton({
           return data ? "Đã lưu vào thư viện" : "Đã xóa khỏi thư viện";
         },
         error: "Có lỗi xảy ra, vui lòng thử lại.",
+        duration: 2000,
+        closeButton: true,
+        position: "top-center",
       });
     } catch (error) {
       console.error("Lỗi favorite:", error);
@@ -65,9 +71,9 @@ export default function FavoriteButton({
       onClick={toggleFavorite}
       disabled={loading}
       className={cn(
-        "gap-2 border-zinc-200 transition-all",
+        "gap-2 border-zinc-200 transition-all cursor-pointer",
         isFavorite &&
-          "bg-zinc-900 text-white border-zinc-900 hover:bg-zinc-800",
+          "bg-zinc-900 text-white border-zinc-900",
       )}
     >
       {loading ? (

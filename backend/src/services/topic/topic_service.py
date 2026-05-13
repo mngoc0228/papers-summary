@@ -56,7 +56,7 @@ class TopicServiceImpl:
         except Exception as e:
             raise e
 
-    async def get_followed_topics(self, user_id: str, page: int = 1, size: int = 50) -> Page[TopicModel]:
+    async def get_followed_topics_by_user_id(self, user_id: str, page: int = 1, size: int = 50) -> Page[TopicModel]:
         try:
             count_statement = (
                 select(func.count())
@@ -79,5 +79,17 @@ class TopicServiceImpl:
                 total=total,
                 params=CustomParams(page=page, size=size)
             )
+        except Exception as e:
+            raise e
+    
+    async def get_followed_topic_by_user_id_and_topic_id(self, user_id: str, topic_id: str) -> TopicModel | None:
+        try:
+            statement = (
+                select(TopicModel)
+                .join(TopicModel.followers)
+                .where(UserModel.id == user_id, TopicModel.id == topic_id)
+            )
+            topic = self.connection.exec(statement).first()
+            return topic if topic else None
         except Exception as e:
             raise e

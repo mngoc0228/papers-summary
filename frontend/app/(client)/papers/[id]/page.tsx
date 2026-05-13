@@ -6,17 +6,37 @@ import { Button } from "@/components/ui/button";
 import { IPaper } from "@/types";
 import FavoriteButton from "@/components/FavoriteButton";
 import FollowTopicButton from "@/components/FollowTopicButton";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function PaperDetail({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const session = await getServerSession(authOptions);  
   const { id } = await params;
   let paper: IPaper;
+  let initialIsFavorite: boolean = false;
+  let initialIsFollowedTopic: boolean = false;
   try {
     const response = await apiRequest(`/papers/${id}`);
     paper = response.data;
+    if (session) {
+      const topicId = paper.topics.length > 0 ? paper.topics[0].id : null;
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${session.user.access_token}`,
+        },
+      }
+      const [initialIsFavoriteResponse, initialIsollowedTopicResponse] = await Promise.all([
+        apiRequest(`/papers/${id}/favorites`, options),
+        apiRequest(`/topics/${topicId}/followed`, options),
+      ]);
+      initialIsFavorite = initialIsFavoriteResponse.data.is_favorite;
+      initialIsFollowedTopic = initialIsollowedTopicResponse.data.is_following;
+    }
   } catch {
     return (
       <div className="text-center py-20 text-red-500">
@@ -35,7 +55,7 @@ export default async function PaperDetail({
                 key={topic.id}
                 topicId={topic.id}
                 topicName={topic.name}
-                initialIsFollowed={false}
+                initialIsFollowed={initialIsFollowedTopic}
               />
             ))}
           </div>
@@ -44,7 +64,7 @@ export default async function PaperDetail({
           {paper.title}
         </h1>
         <div className="flex gap-3 pt-2">
-          <FavoriteButton paperId={id} initialIsFavorite={false} />
+          <FavoriteButton paperId={id} initialIsFavorite={initialIsFavorite} />
           {paper.url && (
             <Button
               variant="outline"
